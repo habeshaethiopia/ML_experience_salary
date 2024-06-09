@@ -46,7 +46,7 @@ tzdata==2024.1
 urllib3==2.2.1
 watchdog==4.0.1
 
-streamlit==1.33.0
-pickle5==0.0.11
-scikit-learn==1.5.0
-pandas==2.2.2
+# streamlit==1.33.0
+# pickle5==0.0.11
+# scikit-learn==1.5.0
+# pandas==2.2.2
