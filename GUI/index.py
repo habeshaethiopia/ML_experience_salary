@@ -140,6 +140,8 @@ def about_us():
     ### Contact Us
 
     For any inquiries or feedback, please feel free to contact us at [hear](mailto:adanemoges6@gmail.com).
+    ### Source Codes
+    The source code for this project is available on [Github](https://github.com/habeshaethiopia/ML_experience_salary.git)
 
     Thank you for using our Salary Predictor application!
     """)

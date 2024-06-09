@@ -1,6 +1,6 @@
 
 
-# ML Experience Salary Prediction
+# Experience Salary Prediction
 
 A project to predict salaries based on machine learning experience using various data and models.
 
