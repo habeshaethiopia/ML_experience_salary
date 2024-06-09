@@ -45,13 +45,23 @@ def dataset():
 def predict_salary():
     st.title("Predict Salary")
     st.write("## Enter the details to predict the salary 💼")
+    age = st.number_input("Age", min_value=18, step=1)
+    gender = st.selectbox("Gender", ["Not Selected","Male", "Female"])
+    education_level = st.selectbox("Education Level", ["Not Selected"]+education_list)
+    job_title = st.selectbox("Job Title", ["Not Selected"]+job_titles)
+    years_experience = st.number_input("Years of Experience", min_value=0, step=1)
+    if gender == "Not Selected":
+        st.warning("Please select a gender.")
+        return
+    if education_level == "Not Selected":
+        st.warning("Please select an education level.")
+        return
+    if job_title == "Not Selected":
+        st.warning("Please select a job title.")
+        return
 
-    # Create input fields
-    age = st.number_input("Age", min_value=0, step=1)
-    gender = st.selectbox("Gender", ["Male", "Female"])
-    education_level = st.selectbox("Education Level", education_list)
-    job_title = st.selectbox("Job Title", job_titles)
-    years_experience = st.number_input("Years of Experience", min_value=0.0, step=0.1)
+
+
 
     edu = {"High School": 0, "Bachelor's": 1, "Master's": 2, "PhD": 3}
     education_level = edu[education_level]
@@ -83,6 +93,8 @@ def predict_salary():
         if st.button("Try Again", key="try_again"):
             # Clear all the input fields and reset the page
             st.experimental_rerun()
+            
+            
 
 def about_us():
     st.title('About Us')
