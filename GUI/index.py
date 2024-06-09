@@ -7,7 +7,8 @@ from GUI import model, df, job_titles, education_list
 
 # Define page functions
 def home():
-    st.title("Home")
+    
+    st.title("Experience Salary Predictor")
     st.write(
         """
     ## Welcome to the Salary Predictor App 🎉
@@ -18,6 +19,21 @@ def home():
         "https://cdn-payscale.com/content/Research-img.png",
         use_column_width=True,
     )
+    
+    st.header("Features")
+    st.write("""
+    - **Dataset Upload**: Upload your dataset for training.
+    - **Model Training**: Train a machine learning model with your dataset.
+    - **Salary Prediction**: Predict salaries based on gender, job Title, age and experience input.
+    """)
+    
+    st.header("Instructions")
+    st.write("""
+    1. Navigate to the 'predict salary' page to upload your dataset and train the model.
+    2. input experience and  other parameters the see the predicted salary.
+    3. Visit the 'Dataset' page to learn more about this project and the dataset we used to trai the model.
+    4. For any questions, go to the 'About us' page.
+    """)
 
 
 def dataset():
@@ -93,7 +109,7 @@ def predict_salary():
         if st.button("Try Again", key="try_again"):
             # Clear all the input fields and reset the page
             st.experimental_rerun()
-            
+
             
 
 def about_us():
