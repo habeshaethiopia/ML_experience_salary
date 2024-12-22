@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from math import ceil
+import matplotlib.pyplot as plt  # Required for plotting
+import seaborn as sns  # Required for visualizations
+from GUI import model, df, job_titles, education_list
 
 
 from GUI import model, df, job_titles, education_list
@@ -110,7 +113,43 @@ def predict_salary():
             # Clear all the input fields and reset the page
             st.experimental_rerun()
 
-            
+def graph_analysis():
+    st.title("Graph Analysis")
+    st.write("## Insights into Salary Trends 📈")
+    
+    # Salary vs. Years of Experience
+    st.subheader("1. Salary vs. Years of Experience")
+    st.write("### How salaries change with experience.")
+    fig1 = plt.figure(figsize=(10, 6))
+    sns.lineplot(x='Years of Experience', y='Salary', data=df, marker='o', color='blue')
+    plt.title('Salary vs. Years of Experience')
+    plt.xlabel('Years of Experience')
+    plt.ylabel('Salary')
+    st.pyplot(fig1)
+    
+    # Salary vs. Age
+    st.subheader("2. Salary vs. Age Group")
+    st.write("### Average salaries across different age groups.")
+    age_groups = pd.cut(df['Age'], bins=[20, 30, 40, 50, 60], labels=['20-30', '30-40', '40-50', '50-60'])
+    avg_salary_age = df.groupby(age_groups)['Salary'].mean()
+    fig2 = plt.figure(figsize=(8, 5))
+    avg_salary_age.plot(kind='bar', color='skyblue')
+    plt.title('Average Salary by Age Group')
+    plt.xlabel('Age Group')
+    plt.ylabel('Average Salary')
+    st.pyplot(fig2)
+    
+    # Gender-wise Salary Distribution
+    st.subheader("3. Gender-wise Salary Distribution")
+    st.write("### Salary variations by gender.")
+    fig3 = plt.figure(figsize=(8, 6))
+    sns.boxplot(x='Gender', y='Salary', data=df, palette='Set2')
+    plt.title('Gender-wise Salary Distribution')
+    plt.xlabel('Gender')
+    plt.ylabel('Salary')
+    st.pyplot(fig3)
+
+
 
 def about_us():
     st.title('About Us')
