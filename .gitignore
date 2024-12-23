@@ -1,6 +1,8 @@
-*.ipynb
+*.ipynb*/
 *.viscode
 __pycache__/
 *.pyc
 *.pyo
 
+venv/
+/.ipynb_checkpoints
