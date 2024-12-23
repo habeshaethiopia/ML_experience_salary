@@ -23,7 +23,7 @@ you can access the website [here](https://habeshaethiopia-ml-experience-salary-a
 
 2. **Create a virtual environment:**
    ```sh
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate   # On Windows: venv\Scripts\activate
    ```
 
@@ -72,6 +72,6 @@ you can access the website [here](https://habeshaethiopia-ml-experience-salary-a
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License i.e permissive open source that any one can freely use ,modify and distribute if they labeled our copyright and lisence notice.
 
 ---
