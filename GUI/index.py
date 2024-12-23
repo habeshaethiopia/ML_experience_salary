@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from math import ceil
+import matplotlib.pyplot as plt  # Required for plotting
+import seaborn as sns  # Required for visualizations
+from GUI import model, df, job_titles, education_list
 
 
 from GUI import model, df, job_titles, education_list
@@ -109,8 +112,227 @@ def predict_salary():
         if st.button("Try Again", key="try_again"):
             # Clear all the input fields and reset the page
             st.experimental_rerun()
+def graph_analysis():
+    st.title("Graph Analysis")
+    st.write("## Insights into Salary Trends 📊")
+    st.write("Explore key trends and relationships in the dataset through visualizations. Each chart is accompanied by a description for better understanding.")
 
-            
+    # Gender Mapping
+    if 'Gender' in df.columns:
+        if df['Gender'].dtype == 'int64':  # Dynamically map gender if encoded
+            gender_mapping = df[['Gender', 'Salary']].groupby('Gender').mean().sort_values(by='Salary').index
+            gender_map = {gender_mapping[0]: "Female", gender_mapping[1]: "Male"}
+            df['Gender'] = df['Gender'].map(gender_map)
+
+    # Gender Distribution
+    st.subheader("1. Gender Distribution")
+    if 'Gender' in df.columns:
+        gender_distribution_chart = plt.figure(figsize=(8, 5))
+        sns.countplot(x='Gender', data=df, palette='pastel')
+        plt.title('Gender Distribution')
+        plt.xlabel('Gender')
+        plt.ylabel('Count')
+        st.pyplot(gender_distribution_chart)
+        st.write("**Description**: This chart shows the count of employees grouped by gender, providing insight into gender representation in the dataset.")
+
+    # Education Level Distribution
+    st.subheader("2. Education Level Distribution")
+    if 'Education Level' in df.columns:
+        if df['Education Level'].dtype == 'int64':  # Map encoded values to original names
+            edu_map = {0: "High School", 1: "Bachelor's", 2: "Master's", 3: "PhD"}
+            df['Education Level'] = df['Education Level'].map(edu_map)
+
+        education_distribution_chart = plt.figure(figsize=(8, 5))
+        sns.countplot(x='Education Level', data=df, palette='muted')
+        plt.title('Education Level Distribution')
+        plt.xlabel('Education Level')
+        plt.ylabel('Count')
+        st.pyplot(education_distribution_chart)
+        st.write("**Description**: This chart shows the distribution of employees by education level, offering insights into workforce qualifications.")
+
+    # Top 10 Highest Paying Jobs
+    st.subheader("3. Top 10 Highest Paying Jobs")
+    if 'Job Title' in df.columns and 'Salary' in df.columns:
+        top_10_jobs = df.groupby('Job Title')['Salary'].mean().nlargest(10)
+        top_jobs_chart = plt.figure(figsize=(12, 6))
+        sns.barplot(x=top_10_jobs.index, y=top_10_jobs.values, palette='Blues_d')
+        plt.title('Top 10 Highest Paying Jobs')
+        plt.xlabel('Job Title')
+        plt.ylabel('Mean Salary')
+        plt.xticks(rotation=60)
+        st.pyplot(top_jobs_chart)
+        st.write("**Description**: This chart displays the top 10 highest-paying jobs based on average salary. It highlights roles with significant earning potential.")
+
+    # Age Distribution
+    st.subheader("4. Age Distribution")
+    if 'Age' in df.columns:
+        age_distribution_chart = plt.figure(figsize=(10, 5))
+        sns.histplot(df['Age'], kde=True, color='blue')
+        plt.title('Age Distribution')
+        plt.xlabel('Age')
+        plt.ylabel('Frequency')
+        st.pyplot(age_distribution_chart)
+        st.write("**Description**: This chart illustrates the distribution of ages in the dataset, highlighting the predominant age groups.")
+
+    # Years of Experience Distribution
+    st.subheader("5. Years of Experience Distribution")
+    if 'Years of Experience' in df.columns:
+        experience_distribution_chart = plt.figure(figsize=(10, 5))
+        sns.histplot(df['Years of Experience'], kde=True, color='orange')
+        plt.title('Years of Experience Distribution')
+        plt.xlabel('Years of Experience')
+        plt.ylabel('Frequency')
+        st.pyplot(experience_distribution_chart)
+        st.write("**Description**: This chart shows the distribution of employees by years of experience, providing insight into their professional background.")
+
+    # Salary Distribution
+    st.subheader("6. Salary Distribution")
+    if 'Salary' in df.columns:
+        salary_distribution_chart = plt.figure(figsize=(10, 5))
+        sns.histplot(df['Salary'], kde=True, color='green')
+        plt.title('Salary Distribution')
+        plt.xlabel('Salary')
+        plt.ylabel('Frequency')
+        st.pyplot(salary_distribution_chart)
+        st.write("**Description**: This chart depicts the distribution of salaries in the dataset, identifying common ranges and outliers.")
+
+    # Gender vs. Salary
+    st.subheader("7. Gender vs. Salary")
+    if 'Gender' in df.columns and 'Salary' in df.columns:
+        gender_salary_chart = plt.figure(figsize=(8, 5))
+        sns.barplot(x='Gender', y='Salary', data=df, palette='coolwarm', ci=None)
+        plt.title('Mean Salary by Gender')
+        plt.xlabel('Gender')
+        plt.ylabel('Mean Salary')
+        st.pyplot(gender_salary_chart)
+        st.write("**Description**: This chart compares the average salaries of males and females, providing insights into any gender-based pay disparities.")
+
+    # Education Level vs. Salary
+    st.subheader("8. Education Level vs. Salary")
+    if 'Education Level' in df.columns and 'Salary' in df.columns:
+        education_salary_chart = plt.figure(figsize=(8, 5))
+        sns.boxplot(x='Education Level', y='Salary', data=df, palette='Set3')
+        plt.title('Salary Distribution by Education Level')
+        plt.xlabel('Education Level')
+        plt.ylabel('Salary')
+        st.pyplot(education_salary_chart)
+        st.write("**Description**: This boxplot shows how salaries vary by education level, highlighting the financial advantages of higher education.")
+
+    # Salary vs. Years of Experience
+    st.subheader("9. Salary vs. Years of Experience")
+    if 'Years of Experience' in df.columns and 'Salary' in df.columns:
+        experience_salary_chart = plt.figure(figsize=(10, 6))
+        sns.lineplot(x='Years of Experience', y='Salary', data=df, marker='o', color='blue')
+        plt.title('Salary vs. Years of Experience')
+        plt.xlabel('Years of Experience')
+        plt.ylabel('Salary')
+        st.pyplot(experience_salary_chart)
+        st.write("**Description**: This chart shows how salaries increase with years of experience, emphasizing the benefits of professional growth.")
+
+    # Salary vs. Age Group
+    st.subheader("10. Salary vs. Age Group")
+    if 'Age' in df.columns and 'Salary' in df.columns:
+        valid_df = df[df['Age'] <= 50]  # Exclude retirement-age anomalies
+        age_groups = pd.cut(valid_df['Age'], bins=[20, 30, 40, 50], labels=['20-30', '30-40', '40-50'])
+        avg_salary_age = valid_df.groupby(age_groups)['Salary'].mean()
+        age_salary_chart = plt.figure(figsize=(8, 5))
+        avg_salary_age.plot(kind='bar', color='skyblue')
+        plt.title('Average Salary by Age Group')
+        plt.xlabel('Age Group')
+        plt.ylabel('Average Salary')
+        st.pyplot(age_salary_chart)
+        st.write("**Description**: This chart shows the average salary for different age groups, highlighting how earnings grow over time.")
+
+
+def salary_insights():
+    st.title("Salary Insights")
+    st.write("## Discover Key Trends and Highlights 💡")
+
+    # Check if the dataset has necessary columns
+    if df.empty:
+        st.warning("The dataset is empty. Please upload or reload the data.")
+        return
+
+    # Average Salary
+    if 'Salary' in df.columns:
+        avg_salary = df['Salary'].mean()
+        st.metric(label="Average Salary", value=f"${avg_salary:,.2f}")
+
+        # Highest Salary
+        max_salary = df['Salary'].max()
+        max_salary_job = df[df['Salary'] == max_salary]['Job Title'].iloc[0] if 'Job Title' in df.columns else "N/A"
+        st.write(f"**Highest Salary**: ${max_salary:,.2f} (Role: {max_salary_job})")
+
+        # Lowest Salary
+        min_salary = df['Salary'].min()
+        min_salary_job = df[df['Salary'] == min_salary]['Job Title'].iloc[0] if 'Job Title' in df.columns else "N/A"
+        st.write(f"**Lowest Salary**: ${min_salary:,.2f} (Role: {min_salary_job})")
+    else:
+        st.warning("The dataset does not contain a 'Salary' column.")
+
+    # Most Common Job Title
+    if 'Job Title' in df.columns:
+        most_common_job = df['Job Title'].mode()[0]
+        st.write(f"**Most Common Job Title**: {most_common_job} (appears {df['Job Title'].value_counts().max()} times)")
+    else:
+        st.warning("!")
+
+    # Gender Pay Gap
+    if 'Gender' in df.columns and 'Salary' in df.columns:
+        # Ensure gender uses original names if encoded
+        if df['Gender'].dtype == 'int64':  # Assume encoded as integers
+            gender_map = {0: "Female", 1: "Male"}
+            df['Gender'] = df['Gender'].map(gender_map)
+
+        gender_avg_salary = df.groupby('Gender')['Salary'].mean()
+        st.write("### Gender Pay Gap:")
+        for gender, avg in gender_avg_salary.items():
+            st.write(f"- **{gender}**: ${avg:,.2f}")
+    else:
+        st.warning("The dataset does not contain 'Gender' or 'Salary' columns.")
+
+    # Education Level Salary Insights
+    if 'Education Level' in df.columns and 'Salary' in df.columns:
+        # Ensure education level uses original names if encoded
+        if df['Education Level'].dtype == 'int64':  # Assume encoded as integers
+            edu_map = {0: "High School", 1: "Bachelor's", 2: "Master's", 3: "PhD"}
+            df['Education Level'] = df['Education Level'].map(edu_map)
+
+        edu_salary = df.groupby('Education Level')['Salary'].mean().sort_values(ascending=False)
+        st.write("### Average Salary by Education Level:")
+        for level, avg in edu_salary.items():
+            st.write(f"- **{level}**: ${avg:,.2f}")
+    else:
+        st.warning("The dataset does not contain 'Education Level' or 'Salary' columns.")
+
+    # Experience Insights
+    if 'Years of Experience' in df.columns and 'Salary' in df.columns:
+        max_experience = df['Years of Experience'].max()
+        min_experience = df['Years of Experience'].min()
+        experience_salary = df.groupby('Years of Experience')['Salary'].mean().sort_values(ascending=False)
+        top_experience = experience_salary.index[0]
+        st.write(f"**Longest Career Path**: {max_experience} years")
+        st.write(f"**Highest Paying Experience Level**: {top_experience} years (${experience_salary[top_experience]:,.2f})")
+    else:
+        st.warning("The dataset does not contain 'Years of Experience' or 'Salary' columns.")
+
+    # Fun Fact
+    if 'Job Title' in df.columns:
+        total_jobs = len(df['Job Title'].unique())
+        st.write(f"### Did You Know? There are **{total_jobs} unique job titles** in this dataset!")
+    else:
+        st.warning("!")
+
+    # Closing with insights
+    st.write("## Key Takeaways 🧐")
+    st.write("""
+    - **Top-Paying Role**: The highest salary is attributed to a standout job, providing a clear benchmark.
+    - **Education Level Impact**: Advanced degrees like PhDs dominate salary charts.
+    - **Gender Trends**: Gender pay gap persists but shows interesting trends across the dataset.
+    - **Career Growth**: Experience significantly boosts earning potential, rewarding long-term dedication.
+    """)
+
+
 
 def about_us():
     st.title('About Us')
