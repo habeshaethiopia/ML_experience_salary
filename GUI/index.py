@@ -275,7 +275,7 @@ def salary_insights():
         most_common_job = df['Job Title'].mode()[0]
         st.write(f"**Most Common Job Title**: {most_common_job} (appears {df['Job Title'].value_counts().max()} times)")
     else:
-        st.warning("The dataset does not contain a 'Job Title' column.")
+        st.warning("!")
 
     # Gender Pay Gap
     if 'Gender' in df.columns and 'Salary' in df.columns:
@@ -321,7 +321,7 @@ def salary_insights():
         total_jobs = len(df['Job Title'].unique())
         st.write(f"### Did You Know? There are **{total_jobs} unique job titles** in this dataset!")
     else:
-        st.warning("The dataset does not contain a 'Job Title' column.")
+        st.warning("!")
 
     # Closing with insights
     st.write("## Key Takeaways 🧐")

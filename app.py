@@ -22,7 +22,7 @@ if __name__ == '__main__':
         predict_salary()
     elif selected == 'Graph Analysis':
         graph_analysis()
-    elif selected == 'Salary Insights':  # New section
+    elif selected == 'Salary Insights':
         salary_insights()
     elif selected == 'About Us':
         about_us()
