@@ -242,6 +242,17 @@ def graph_analysis():
         plt.ylabel('Average Salary')
         st.pyplot(age_salary_chart)
         st.write("**Description**: This chart shows the average salary for different age groups, highlighting how earnings grow over time.")
+    
+    # Gender-wise Salary Distribution
+    st.subheader("11. Gender-wise Salary Distribution")
+    if 'Gender' in df.columns and 'Salary' in df.columns:
+        gender_salary_chart = plt.figure(figsize=(8, 5))
+        sns.boxplot(x='Gender', y='Salary', data=df, palette='Set2')
+        plt.title('Gender-wise Salary Distribution')
+        plt.xlabel('Gender')
+        plt.ylabel('Salary')
+        st.pyplot(gender_salary_chart)
+        st.write("**Description**: This boxplot highlights salary variations by gender, offering clarity on gender-based salary trends.")
 
 
 def salary_insights():
