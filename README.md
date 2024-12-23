@@ -1,7 +1,3 @@
-Here's the updated and more detailed version of your project description:  
-
----
-
 # Experience Salary Prediction
 ## Link to  colab [here](https://colab.research.google.com/drive/1TVu_MI1hGtt8GigJNBnI-QXm50MpLUXe#scrollTo=6e4344f0)
 
@@ -13,7 +9,7 @@ A machine learning project designed to predict salaries based on professional ex
 
 ## **Links**  
 - **Colab Notebook**: [Open Colab](https://colab.research.google.com/drive/1TVu_MI1hGtt8GigJNBnI-QXm50MpLUXe#scrollTo=6e4344f0)  
-- **Web Application**: [Visit the App](https://habeshaethiopia-ml-experience-salary-app-ksze0a.streamlit.app/)  
+- **Web Application**: [Visit the App](https://habeshaethiopia-ml-experience-salary-app-6qlnac.streamlit.app/)  
 
 ## **Table of Contents**  
 1. [Installation](#installation)  
